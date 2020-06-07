@@ -1,9 +1,15 @@
-import { swap, addAnimation } from "./utility.js";
+import { swap, addAnimation, getNumberArray } from "./utility.js";
 import { COLORS } from "../constants/constants.js";
 
-export function getMergeSortAnimations(array) {
+export function getMergeSortAnimations(arr) {
   let animations = [];
-  mergeSortHelper(animations, array, 0, array.length - 1);
+  mergeSortHelper(animations, arr, 0, arr.length - 1);
+  addAnimation(
+    animations,
+    arr,
+    getNumberArray(0, arr.length - 1),
+    COLORS.PRIMARY
+  );
   return animations;
 }
 
@@ -12,7 +18,7 @@ function mergeSortHelper(animations, arr, low, high) {
     return;
   }
   if (high - low === 1) {
-    if (arr[low] > arr[high]) {
+    if (arr[low].height > arr[high].height) {
       swap(arr, low, high);
       addAnimation(animations, arr, [low, high], COLORS.DANGER);
     } else {
@@ -24,7 +30,7 @@ function mergeSortHelper(animations, arr, low, high) {
   mergeSortHelper(animations, arr, low, mid);
   mergeSortHelper(animations, arr, mid + 1, high);
   merge(arr, low, mid, mid + 1, high);
-  addAnimation(animations, arr, [low, high], COLORS.SUCCESS);
+  addAnimation(animations, arr, getNumberArray(low, high), COLORS.SUCCESS);
 }
 
 function merge(arr, start1, end1, start2, end2) {
@@ -32,7 +38,7 @@ function merge(arr, start1, end1, start2, end2) {
   let index1 = start1;
   let index2 = start2;
 
-  while (index1 < end1 && index2 < end2) {
+  while (index1 <= end1 && index2 <= end2) {
     if (arr[index1].height < arr[index2].height) {
       aux.push(arr[index1++]);
     } else {
@@ -53,5 +59,4 @@ function merge(arr, start1, end1, start2, end2) {
   while (i <= end2) {
     arr[i++] = aux[j++];
   }
-  console.log(aux);
 }

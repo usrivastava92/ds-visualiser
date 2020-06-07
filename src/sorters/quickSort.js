@@ -1,28 +1,52 @@
-import { swap } from "./utility.js";
+import { swap, addAnimation } from "./utility.js";
+import { COLORS } from "../constants/constants.js";
 
-export function getInsertionSortAnimations(array, colors) {
+export function getQuickSortAnimations(arr) {
   let animations = [];
-  insertionSortHelper(animations, array, colors);
+  quickSortHelper(arr, animations, 0, arr.length - 1);
   return animations;
 }
 
-function insertionSortHelper(animations, arr, colors) {
-  let len = arr.length;
-  for (let i = 1; i < len; i++) {
-    let j = i;
-    while (j > 0 && arr[j - 1].height > arr[j].height) {
-      swap(arr, j, j - 1);
-      let cloneArr = arr.map((a) => ({ ...a }));
-      cloneArr[j].color = colors.DANGER;
-      cloneArr[j - 1].color = colors.DANGER;
-      animations.push(cloneArr);
-      j--;
+function quickSortHelper(arr, animations, low, high) {
+  if (low >= high) {
+    return;
+  }
+  if (high - low === 1) {
+    if (arr[low].height > arr[high].height) {
+      addAnimation(animations, arr, [low, high], COLORS.DANGER);
+      swap(arr, low, high);
+    } else {
+      addAnimation(animations, arr, [low, high], COLORS.SUCCESS);
     }
-    if (j > 0) {
-      let cloneArr = arr.map((a) => ({ ...a }));
-      cloneArr[j].color = colors.SUCCESS;
-      cloneArr[j - 1].color = colors.SUCCESS;
-      animations.push(cloneArr);
+    return;
+  }
+  let pivotIndex = high;
+  pivotIndex = movePivotToCorrectIndex(arr, animations, pivotIndex, low, high);
+  quickSortHelper(arr, animations, low, pivotIndex - 1);
+  quickSortHelper(arr, animations, pivotIndex + 1, high);
+}
+
+function movePivotToCorrectIndex(arr, animations, pivotIndex, low, high) {
+  while (low <= high) {
+    if (
+      arr[low].height > arr[pivotIndex].height &&
+      arr[high].height < arr[pivotIndex].height
+    ) {
+      addAnimation(animations, arr, [low, high], COLORS.DANGER);
+      swap(arr, low, high);
+      low++;
+      high--;
+    } else {
+      addAnimation(animations, arr, [low, high], COLORS.SUCCESS);
+      if (arr[low].height <= arr[pivotIndex].height) {
+        low++;
+      }
+      if (arr[high].height >= arr[pivotIndex].height) {
+        high--;
+      }
     }
   }
+  swap(arr, low, pivotIndex);
+  addAnimation(animations, arr, [low, pivotIndex], COLORS.DANGER);
+  return low;
 }

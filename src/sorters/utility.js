@@ -11,3 +11,11 @@ export function addAnimation(animations, arr, indexes, color) {
   });
   animations.push(cloneArr);
 }
+
+export function getNumberArray(startInclusive, endInclusive) {
+  let arr = [];
+  for (let i = startInclusive; i <= endInclusive; i++) {
+    arr.push(i);
+  }
+  return arr;
+}

@@ -9,6 +9,7 @@ class Bar extends Component {
           width: `${this.props.width}%`,
           height: `${this.props.height}%`,
           border: "solid white 1px",
+          fontSize: "70%",
         }}
       >
         {this.props.height}

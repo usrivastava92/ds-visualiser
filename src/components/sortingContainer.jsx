@@ -6,12 +6,23 @@ import { getBubbleSortAnimations } from "../sorters/bubbleSort.js";
 import { getInsertionSortAnimations } from "../sorters/insertionSort.js";
 import { getSelectionSortAnimations } from "../sorters/selectionSort.js";
 import { getMergeSortAnimations } from "../sorters/mergeSort.js";
+import { getQuickSortAnimations } from "../sorters/quickSort.js";
 import { COLORS } from "../constants/constants.js";
 
 const BASE_SIZE = 25;
 const BASE_ANIMATION_MS = 300;
 
 class SortingContainer extends Component {
+  handleQuickSort = () => {
+    const animations = getQuickSortAnimations(this.state.bars);
+    const len = animations.length;
+    for (let i = 0; i < len; i++) {
+      setTimeout(() => {
+        this.setState({ bars: animations[i] });
+      }, i * this.state.animationSpeed);
+    }
+  };
+
   handleMergeSort = () => {
     const animations = getMergeSortAnimations(this.state.bars);
     const len = animations.length;
