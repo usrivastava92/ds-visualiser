@@ -9,7 +9,7 @@
     "bootstrap": "4.6.1",
     "jquery": "3.6.0",
     "react": "16.13.1",
-    "react-bootstrap": "1.0.1",
+    "react-bootstrap": "1.6.4",
     "react-dom": "16.13.1",
     "react-scripts": "5.0.1"
   },
